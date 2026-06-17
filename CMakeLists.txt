@@ -15,7 +15,7 @@ cmake_minimum_required(VERSION 3.20 FATAL_ERROR)
 # format used by CMake and then recombined to allow it to be passed to
 # shumlib via a pre-processor definition
 project(shumlib LANGUAGES C Fortran
-  VERSION 2026.01.1
+  VERSION 2026.07.1
   DESCRIPTION "Met Office Shared Unifed Model Library"
   HOMEPAGE_URL "https://github.com/MetOffice/shumlib")
 
