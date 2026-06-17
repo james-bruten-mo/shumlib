@@ -25,9 +25,9 @@
 
 /* Check the macro we need is defined.
  * This should happen outside the include guard, else only the top level library
- * is validated
+ * is validated.
  */
-#if !defined(SHUMLIB_LIBNAME)
+#if !defined(SHUMLIB_LIBNAME) && !defined(SHUMLIB_CMAKE)
 #error "Please define 'SHUMLIB_LIBNAME' when including this header"
 #endif
 
@@ -37,11 +37,13 @@
 
 #include <inttypes.h>
 
+#if !defined(SHUMLIB_CMAKE)
+
 /* Master definition of version number (uses YYYYMMX format)
  * where "X" is the release number in month "MM" of year "YYYY"
  */
 #if !defined(SHUMLIB_VERSION)
-#define SHUMLIB_VERSION 2025101
+#define SHUMLIB_VERSION 2026071
 #endif
 
 /* 2-stage expansion which will replace in the including code:
@@ -51,9 +53,26 @@
 #define SHUMLIB_XSTRING_EXPANSION(str) get_##str##_version
 #define GET_SHUMLIB_VERSION(libname) SHUMLIB_XSTRING_EXPANSION(libname)(void)
 
+#else /* Using CMake features */
+
+/* Master definition of version number (uses YYYYMMX format)
+ * where "X" is the release number in month "MM" of year "YYYY"
+ */
+#if !defined(SHUMLIB_VERSION)
+#error Need to define SHUMLIB_VERSION macro
 #endif
 
+extern int64_t GET_SHUMLIB_VERSION(void);
+
+#endif /* SHUMLIB_CMAKE */
+#endif /* SHUMLIB_VERSION_H */
+
+#if !defined(SHUMLIB_CMAKE)
 /* The prototype should be OUTSIDE the include guard, because it is preprocessed
  * to a different function in every include instance.
  */
 extern int64_t GET_SHUMLIB_VERSION(SHUMLIB_LIBNAME);
+
+#endif /* !SHUMLIB_CMAKE */
+
+
